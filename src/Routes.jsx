@@ -2,7 +2,7 @@ import React from 'react'
 import {BrowserRouter,Route,Switch} from 'react-router-dom';
 import Comics from './Pages/Comics/Index';
 import Details from '../src/Pages/Details/Index';
-import Store from './Pages/Store/index';
+import Store from './Pages/Store/Index';
 
 export default function Routes() {
     return (

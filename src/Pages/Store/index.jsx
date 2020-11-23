@@ -1,109 +1,6 @@
-
 import React, { Component } from 'react'
-import styled from 'styled-components';
+import { ImageTitle, Image, PTitle, Price, P, Button, Container, ContainerBody, Title, PEmpty, CheckOut, Total } from './Style';
 import { FaTrashAlt } from "react-icons/fa";
-import { connect } from 'react-redux';
-
-
-const Container = styled.div`
-  display:flex;
-  width:100%;
-  height:auto;
-  flex-direction:column;
-  align-items: center;
-  align-self:center;
-  margin-bottom:1.4rem;
-`
-
-const ContainerBody = styled.div`
-  margin-bottom:2.3rem;
-  align-items:center;
-  text-align:center;
-  width:70%;
-  min-width:300px;
-  background:white;
-  margin-top:6.4rem;
-`
-
-const Title = styled.h1`
-  color:black;
-  padding-top:0.7rem;
-  margin:2.4rem;
-  text-align:center;
-
-`
-const CheckOut = styled.div`
-  display:flex;
-  flex-direction:row;
-  border:1px solid black;
-  margin:0.8rem;
-  padding:0.7rem;
-  justify-content:space-around;
-  @media (max-width: 490px) {
-    flex-direction:column;
-}
-`
-
-const ImageTitle = styled.div`
-  display:flex;
-  margin-top:30px;
-  min-weight:100px;
-  max-width:250px;
-  width:300px;
-  height:auto;
-  flex-direction:row;
-  @media (max-width: 490px) {
-    align-self:center;
-}
-  
-`
-
-const PTitle = styled.p`
-  font-size:12px;
-  align-self:center;
-  width:auto;
-  max-width:150px;
-  min-width:30px;
-  margin:0.9rem;
-  @media (max-width: 740px) {
-   max-width:100px;
-}
-`
-const PEmpty = styled.p`
-   align-self:center;
-   font-size:20px;
-`
-
-const P = styled.p`
-  font-size:13px;
-  margin:0.5rem;
-`
-
-const Image = styled.img`
-  weight:100px;
-  align-self:center;
-  height:90px;
-`
-const Price = styled.div`
-  display:flex;
-  flex-direction:row;
-  align-self:center;
-  max-width:150px;
-  margin-top:30px;
-  @media (max-width: 740px) {
-    text-align:center;
- }
-`
-
-const Button = styled.button`
-align-self:center;
-  width:2.3rem;
-  height:2.1rem;
-`
-
-const Total = styled.div`
- text-align:center;
-`
 
 class Store extends Component {
 
@@ -116,21 +13,21 @@ class Store extends Component {
 
   componentDidMount() {
     const array = localStorage.getItem('store');
-      if (array == null) {
+    if (array == null) {
+      this.setState({ empty: true })
+    } else {
+      if (array.length == 0) {
         this.setState({ empty: true })
-      }else{
-        if(array.length == 0){
-          this.setState({empty:true})
-        }
-        JSON.parse(array);
-
-        let total = JSON.parse(array).reduce(function (total, valorAtual) {
-          return total += valorAtual.price;
-        }, 0)
-  
-        this.setState({ comic: JSON.parse(array), total: total });
       }
+      JSON.parse(array);
+
+      let total = JSON.parse(array).reduce(function (total, valorAtual) {
+        return total += valorAtual.price;
+      }, 0)
+
+      this.setState({ comic: JSON.parse(array), total: total });
     }
+  }
 
   onClick = (id, price) => {
     const novo = this.state.comic.filter(function (e) {
@@ -138,7 +35,7 @@ class Store extends Component {
     })
     let totalNew = this.state.total - price
     this.setState({ comic: novo, total: totalNew })
-    if (novo.length === 0) {
+    if (novo.length == 0) {
       this.setState({ empty: true })
     }
     localStorage.setItem('store', JSON.stringify(novo));
@@ -158,7 +55,7 @@ class Store extends Component {
       return (
         <Container>
           <ContainerBody>
-            <Title>Store</Title>
+            <Title>Comics</Title>
             <PEmpty>No Comic in the Store</PEmpty>
           </ContainerBody>
         </Container>
@@ -192,5 +89,4 @@ class Store extends Component {
   }
 }
 
-const mapStateToProps = state => ({ Data: {} })
-export default connect(mapStateToProps, null)(Store)
+export default Store;
